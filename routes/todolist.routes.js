@@ -17,7 +17,7 @@ const ToDoListController = require('../controllers/todoList.controller')
 router.get("/", async (req, res) => {
     try {
         const tasks = await ToDoListController.getTasks();
-        res.status(200).json(tasks);
+        res.status(200).json({message : 'List of tasks:',tasks});
     } catch (err) {
         console.log({ message: err })
     }
@@ -43,7 +43,7 @@ router.get("/", async (req, res) => {
 router.get("/byName/:name", async (req, res) => {
     try {
         const task = await ToDoListController.getTaskByName(req.params.name);
-        res.status(200).json(task);
+        res.status(200).json({message: `Task of ${req.params.name}`,task});
     } catch (err) {
         console.log({ message: err })
     }
@@ -83,7 +83,7 @@ router.get("/byName/:name", async (req, res) => {
 router.post("/create", async (req, res) => {
     try {
         const savedTasks = await ToDoListController.addTask(req.body.author, req.body.text);
-        res.status(200).json(savedTasks).json({message : 'Task added'})
+        res.status(200).json({message : 'Task added!',savedTasks});
 
     } catch (err) {
         console.log({ message: err })
@@ -126,8 +126,8 @@ router.post("/create", async (req, res) => {
  */ 
 router.patch("/edit/:name", async (req, res) => {
     try {
-        const tasks = await ToDoListController.editTask(req.params.name, req.body.text)
-        res.status(200).json(tasks);
+        const task = await ToDoListController.editTask(req.params.name, req.body.text)
+        res.status(200).json({message : `Task of ${req.params.name} edited`,task});
     } catch (err) {
         console.log({ message: err });
     }
@@ -157,7 +157,7 @@ router.patch("/edit/:name", async (req, res) => {
 router.delete("/deleteByName/:name", async (req, res) => {
     try {
         const task = await ToDoListController.deleteTask(req.params.name)
-        res.status(200).json(task);
+        res.status(200).json({message : `Task of ${req.params.name} deleted!`,task});
     } catch (err) {
         console.log({ message: err })
     }
